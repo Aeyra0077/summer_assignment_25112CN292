@@ -1,18 +1,20 @@
 #include <stdio.h>
 
-int main() {
-    int num, i;
-
-    printf("Enter a positive integer: ");
-    scanf("%d", &num);
-
-    printf("Factors of %d are: ", num);
-    for (i = 1; i <= num; ++i) {
-        if (num % i == 0) {
-            printf("%d ", i);
-        }
+int countSetBits(int n) {
+    int count = 0;
+    while (n) {
+        n &= (n - 1);
+        count++;
     }
-    printf("\n");
+    return count;
+}
 
+int main() {
+    int num;
+    printf("Enter an integer: ");
+    if (scanf("%d", &num) != 1) {
+        return 1;
+    }
+    printf("Number of set bits: %d\n", countSetBits(num));
     return 0;
 }
