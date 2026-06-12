@@ -1,23 +1,33 @@
 #include <stdio.h>
-
-int find_gcd(int a, int b) {
-    while (b != 0) {
-        int temp = b;
-        b = a % b;
-        a = temp;
-    }
-    return a;
-}
+#include <math.h>
 
 int main() {
-    int num1, num2;
-    
-    printf("Enter two integers: ");
-    if (scanf("%d %d", &num1, &num2) != 2) {
+    int num, originalNum, remainder, n = 0;
+    double result = 0.0;
+
+    printf("Enter an integer: ");
+    if (scanf("%d", &num) != 1) {
         return 1;
     }
-    
-    printf("GCD of %d and %d is %d\n", num1, num2, find_gcd(num1, num2));
-    
+
+    originalNum = num;
+    while (originalNum != 0) {
+        originalNum /= 10;
+        ++n;
+    }
+
+    originalNum = num;
+    while (originalNum != 0) {
+        remainder = originalNum % 10;
+        result += pow(remainder, n);
+        originalNum /= 10;
+    }
+
+    if ((int)round(result) == num) {
+        printf("%d is an Armstrong number.\n", num);
+    } else {
+        printf("%d is not an Armstrong number.\n", num);
+    }
+
     return 0;
 }

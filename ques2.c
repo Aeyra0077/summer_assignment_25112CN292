@@ -1,40 +1,28 @@
 #include <stdio.h>
 
 int main() {
-    int start, end, i, j, isPrime;
+    int n;
+    unsigned long long a = 0, b = 1, next;
 
-    printf("Enter the lower and upper bounds: ");
-    if (scanf("%d %d", &start, &end) != 2) {
+    if (scanf("%d", &n) != 1 || n < 0) {
         return 1;
     }
 
-    if (start > end) {
-        int temp = start;
-        start = end;
-        end = temp;
+    if (n == 0) {
+        printf("%llu\n", a);
+        return 0;
+    }
+    if (n == 1) {
+        printf("%llu\n", b);
+        return 0;
     }
 
-    printf("Prime numbers between %d and %d are: ", start, end);
-
-    for (i = start; i <= end; i++) {
-        if (i < 2) {
-            continue;
-        }
-
-        isPrime = 1;
-
-        for (j = 2; j * j <= i; j++) {
-            if (i % j == 0) {
-                isPrime = 0;
-                break;
-            }
-        }
-
-        if (isPrime) {
-            printf("%d ", i);
-        }
+    for (int i = 2; i <= n; i++) {
+        next = a + b;
+        a = b;
+        b = next;
     }
 
-    printf("\n");
+    printf("%llu\n", b);
     return 0;
 }

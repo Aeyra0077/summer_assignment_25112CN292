@@ -1,29 +1,29 @@
 #include <stdio.h>
-int main() {
-    int n, i, isPrime = 1;
 
-    printf("Enter a positive integer: ");
-    if (scanf("%d", &n) != 1) {
-        printf("Invalid input.\n");
+int main() {
+    int n;
+    long long t1 = 0, t2 = 1, nextTerm;
+
+    printf("Enter the number of terms: ");
+    if (scanf("%d", &n) != 1 || n <= 0) {
+        printf("Please enter a positive integer.\n");
         return 1;
     }
 
-    if (n <= 1) {
-        isPrime = 0;
-    } else {
+    printf("Fibonacci Series: ");
+
+    for (int i = 1; i <= n; ++i) {
+        printf("%lld", t1);
         
-        for (i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                isPrime = 0; 
-                break;      
-            }
+        if (i < n) {
+            printf(", ");
         }
-    }
-    if (isPrime == 1) {
-        printf("%d is a prime number.\n", n);
-    } else {
-        printf("%d is not a prime number.\n", n);
+        
+        nextTerm = t1 + t2;
+        t1 = t2;
+        t2 = nextTerm;
     }
 
+    printf("\n");
     return 0;
 }
