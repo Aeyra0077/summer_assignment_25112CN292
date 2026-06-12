@@ -1,30 +1,25 @@
 #include <stdio.h>
 
-int main() {
-    int decimal, i = 0;
-    int binary[32];
-
-    printf("Enter a decimal number: ");
-    if (scanf("%d", &decimal) != 1) {
+long long factorial(int n) {
+    if (n <= 1) {
         return 1;
     }
+    return n * factorial(n - 1);
+}
 
-    if (decimal == 0) {
-        printf("Binary equivalent: 0\n");
-        return 0;
+int main() {
+    int number;
+    
+    printf("Enter a positive integer: ");
+    if (scanf("%d", &number) != 1) {
+        return 1;
     }
-
-    while (decimal > 0) {
-        binary[i] = decimal % 2;
-        decimal = decimal / 2;
-        i++;
+    
+    if (number < 0) {
+        printf("Factorial is not defined for negative numbers.\n");
+    } else {
+        printf("Factorial of %d = %lld\n", number, factorial(number));
     }
-
-    printf("Binary equivalent: ");
-    for (int j = i - 1; j >= 0; j--) {
-        printf("%d", binary[j]);
-    }
-    printf("\n");
-
+    
     return 0;
 }
