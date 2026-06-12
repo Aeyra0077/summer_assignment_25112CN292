@@ -1,22 +1,19 @@
 #include <stdio.h>
 
 int main() {
-    int num, originalNum, remainder, reversedNum = 0;
+    int num1, num2, max;
 
-    printf("Enter an integer: ");
-    scanf("%d", &num);
+    printf("Enter two positive integers: ");
+    scanf("%d %d", &num1, &num2);
 
-    originalNum = num;
+    max = (num1 > num2) ? num1 : num2;
 
-    while (num != 0) {
-        remainder = num % 10;          
-        reversedNum = reversedNum * 10 + remainder; 
-        num /= 10;                    
-    }
-    if (originalNum == reversedNum) {
-        printf("%d is a palindrome.\n", originalNum);
-    } else {
-        printf("%d is not a palindrome.\n", originalNum);
+    while (1) {
+        if (max % num1 == 0 && max % num2 == 0) {
+            printf("LCM of %d and %d is %d\n", num1, num2, max);
+            break;
+        }
+        max++;
     }
 
     return 0;

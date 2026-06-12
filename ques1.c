@@ -1,20 +1,29 @@
 #include <stdio.h>
-
 int main() {
-    int num, temp, remainder, sum = 0;
+    int n, i, isPrime = 1;
 
-    printf("Enter an integer: ");
-    scanf("%d", &num);
-
-    temp = num; 
-
-    while (temp > 0) {
-        remainder = temp % 10;
-        sum = sum + remainder;
-        temp = temp / 10;      
+    printf("Enter a positive integer: ");
+    if (scanf("%d", &n) != 1) {
+        printf("Invalid input.\n");
+        return 1;
     }
 
-    printf("The sum of the digits of %d is: %d\n", num, sum);
+    if (n <= 1) {
+        isPrime = 0;
+    } else {
+        
+        for (i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                isPrime = 0; 
+                break;      
+            }
+        }
+    }
+    if (isPrime == 1) {
+        printf("%d is a prime number.\n", n);
+    } else {
+        printf("%d is not a prime number.\n", n);
+    }
 
     return 0;
 }

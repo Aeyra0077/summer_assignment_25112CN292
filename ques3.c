@@ -1,28 +1,23 @@
 #include <stdio.h>
-#include <stdlib.h>
+
+int find_gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
 
 int main() {
-    int num, temp;
-    long long product = 1;
-
-    printf("Enter any number: ");
-    if (scanf("%d", &num) != 1) {
-        printf("Invalid input.\n");
+    int num1, num2;
+    
+    printf("Enter two integers: ");
+    if (scanf("%d %d", &num1, &num2) != 2) {
         return 1;
     }
-    if (num == 0) {
-        product = 0;
-    } else {
-        
-        temp = abs(num);
-
-        while (temp > 0) {
-            product *= (temp % 10); 
-            temp /= 10;            
     
-    }
-    }
-    printf("Product of digits = %lld\n", product);
-
+    printf("GCD of %d and %d is %d\n", num1, num2, find_gcd(num1, num2));
+    
     return 0;
 }
