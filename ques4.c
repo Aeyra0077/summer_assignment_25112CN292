@@ -1,44 +1,38 @@
 #include <stdio.h>
-#include <math.h>
 
-int main() {
-    int start, end, i, temp1, temp2, remainder, digits, sum;
-
-    printf("Enter lower and upper limits: ");
-    scanf("%d %d", &start, &end);
-
-    printf("Armstrong numbers between %d and %d are: ", start, end);
-
-    if (start > end) {
-        temp1 = start;
-        start = end;
-        end = temp1;
+int isPrime(int num) {
+    if (num <= 1) {
+        return 0;
     }
-
-    for (i = start; i <= end; i++) {
-        temp1 = i;
-        temp2 = i;
-        digits = 0;
-        sum = 0;
-
-        while (temp1 != 0) {
-            temp1 /= 10;
-            digits++;
-        }
-
-        while (temp2 != 0) {
-            remainder = temp2 % 10;
-            sum += round(pow(remainder, digits));
-            temp2 /= 10;
-        }
-
-        if (sum == i) {
-            printf("%d ", i);
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) {
+            return 0;
         }
     }
-
-    printf("\n");
-    return 0;
+    return 1;
 }
 
-        
+int main() {
+    int limit;
+    int largestPrime = -1;
+
+    printf("Enter the upper limit: ");
+    if (scanf("%d", &limit) != 1) {
+        return 1;
+    }
+
+    for (int i = limit; i >= 2; i--) {
+        if (isPrime(i)) {
+            largestPrime = i;
+            break;
+        }
+    }
+
+    if (largestPrime != -1) {
+        printf("The largest prime number up to %d is: %d\n", limit, largestPrime);
+    } else {
+        printf("No prime number found in the given range.\n");
+    }
+
+    return 0;
+}

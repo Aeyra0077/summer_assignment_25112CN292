@@ -1,28 +1,31 @@
 #include <stdio.h>
 
 int main() {
-    int n;
-    unsigned long long a = 0, b = 1, next;
+    int num, original_num, remainder, sum = 0;
+    long fact;
 
-    if (scanf("%d", &n) != 1 || n < 0) {
-        return 1;
+    printf("Enter an integer: ");
+    scanf("%d", &num);
+
+    original_num = num;
+
+    while (num > 0) {
+        remainder = num % 10;
+        fact = 1;
+
+        for (int i = 1; i <= remainder; i++) {
+            fact *= i;
+        }
+
+        sum += fact;
+        num /= 10;
     }
 
-    if (n == 0) {
-        printf("%llu\n", a);
-        return 0;
-    }
-    if (n == 1) {
-        printf("%llu\n", b);
-        return 0;
+    if (sum == original_num) {
+        printf("%d is a strong number.\n", original_num);
+    } else {
+        printf("%d is not a strong number.\n", original_num);
     }
 
-    for (int i = 2; i <= n; i++) {
-        next = a + b;
-        a = b;
-        b = next;
-    }
-
-    printf("%llu\n", b);
     return 0;
 }

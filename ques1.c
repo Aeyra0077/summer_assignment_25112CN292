@@ -1,29 +1,22 @@
 #include <stdio.h>
 
 int main() {
-    int n;
-    long long t1 = 0, t2 = 1, nextTerm;
+    int num, sum = 0, i;
 
-    printf("Enter the number of terms: ");
-    if (scanf("%d", &n) != 1 || n <= 0) {
-        printf("Please enter a positive integer.\n");
-        return 1;
-    }
+    printf("Enter a number: ");
+    scanf("%d", &num);
 
-    printf("Fibonacci Series: ");
-
-    for (int i = 1; i <= n; ++i) {
-        printf("%lld", t1);
-        
-        if (i < n) {
-            printf(", ");
+    for (i = 1; i <= num / 2; i++) {
+        if (num % i == 0) {
+            sum += i;
         }
-        
-        nextTerm = t1 + t2;
-        t1 = t2;
-        t2 = nextTerm;
     }
 
-    printf("\n");
+    if (sum == num && num > 0) {
+        printf("%d is a perfect number.\n", num);
+    } else {
+        printf("%d is not a perfect number.\n", num);
+    }
+
     return 0;
 }
