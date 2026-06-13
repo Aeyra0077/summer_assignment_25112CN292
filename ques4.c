@@ -2,11 +2,18 @@
 
 int main() {
     int i, j;
-    for (i = 1; i <= 5; i++) {
-        for (j = 1; j <= i; j++) {
-            printf("%d", i);
+    int size = 5;
+
+    for (i = 1; i <= size; i++) {
+        for (j = 1; j <= size; j++) {
+            if (i == 1 || i == size || j == 1 || j == size) {
+                printf("*");
+            } else {
+                printf(" ");
+            }
         }
         printf("\n");
     }
+
     return 0;
 }
