@@ -1,24 +1,16 @@
 #include <stdio.h>
 
-long long factorial(int n) {
-    if (n <= 1) {
-        return 1;
-    }
-    return n * factorial(n - 1);
-}
-
 int main() {
-    int number;
+    int rows;
     
-    printf("Enter a positive integer: ");
-    if (scanf("%d", &number) != 1) {
-        return 1;
-    }
+    printf("Enter the number of rows: ");
+    scanf("%d", &rows);
     
-    if (number < 0) {
-        printf("Factorial is not defined for negative numbers.\n");
-    } else {
-        printf("Factorial of %d = %lld\n", number, factorial(number));
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++) {
+            printf("* ");
+        }
+        printf("\n");
     }
     
     return 0;
