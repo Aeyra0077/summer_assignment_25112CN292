@@ -1,18 +1,31 @@
 #include <stdio.h>
+#include <string.h>
 
-int findSum(int num1, int num2) {
-    return num1 + num2;
+int isPalindrome(char str[]) {
+    int left = 0;
+    int right = strlen(str) - 1;
+    
+    while (left < right) {
+        if (str[left] != str[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
 }
 
 int main() {
-    int a, b, sum;
-
-    printf("Enter two numbers: ");
-    scanf("%d %d", &a, &b);
-
-    sum = findSum(a, b);
-
-    printf("Sum: %d\n", sum);
-
+    char str[100];
+    
+    printf("Enter a string: ");
+    scanf("%s", str);
+    
+    if (isPalindrome(str)) {
+        printf("%s is a palindrome.\n", str);
+    } else {
+        printf("%s is not a palindrome.\n", str);
+    }
+    
     return 0;
 }

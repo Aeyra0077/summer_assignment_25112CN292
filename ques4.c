@@ -1,27 +1,32 @@
 #include <stdio.h>
 
-unsigned long long factorial(int n) {
-    if (n < 0) {
+int isPerfect(int num) {
+    if (num <= 1) {
         return 0;
     }
-    unsigned long long fact = 1;
-    for (int i = 1; i <= n; i++) {
-        fact *= i;
+    
+    int sum = 0;
+    for (int i = 1; i <= num / 2; i++) {
+        if (num % i == 0) {
+            sum += i;
+        }
     }
-    return fact;
+    
+    return (sum == num);
 }
 
 int main() {
     int number;
-    printf("Enter an integer: ");
+    
+    printf("Enter a number: ");
     if (scanf("%d", &number) != 1) {
         return 1;
     }
     
-    if (number < 0) {
-        printf("Factorial of a negative number doesn't exist.\n");
+    if (isPerfect(number)) {
+        printf("%d is a perfect number.\n", number);
     } else {
-        printf("Factorial of %d = %llu\n", number, factorial(number));
+        printf("%d is not a perfect number.\n", number);
     }
     
     return 0;
