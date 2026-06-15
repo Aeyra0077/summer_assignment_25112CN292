@@ -1,31 +1,21 @@
 #include <stdio.h>
-#include <string.h>
-
-int isPalindrome(char str[]) {
-    int left = 0;
-    int right = strlen(str) - 1;
-    
-    while (left < right) {
-        if (str[left] != str[right]) {
-            return 0;
-        }
-        left++;
-        right--;
-    }
-    return 1;
-}
 
 int main() {
-    char str[100];
-    
-    printf("Enter a string: ");
-    scanf("%s", str);
-    
-    if (isPalindrome(str)) {
-        printf("%s is a palindrome.\n", str);
-    } else {
-        printf("%s is not a palindrome.\n", str);
+    int n;
+    printf("Enter the size of the array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
     }
-    
+
+    printf("The elements of the array are: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
     return 0;
 }

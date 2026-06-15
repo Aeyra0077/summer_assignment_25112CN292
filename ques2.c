@@ -1,20 +1,32 @@
 #include <stdio.h>
 
-int findMax(int a, int b) {
-    if (a > b) {
-        return a;
-    } else {
-        return b;
-    }
-}
-
 int main() {
-    int num1 , num2;
-    printf("Enter two numbers: ");
-    scanf("%d %d", &num1, &num2);
+    int n, i;
+    int sum = 0;
+    float average;
 
-    int result = findMax(num1, num2);
-    
-    printf("The maximum is: %d\n", result);
+    printf("Enter the number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) {
+        return 1;
+    }
+
+    int arr[n];
+
+    printf("Enter %d elements:\n", n);
+    for (i = 0; i < n; i++) {
+        if (scanf("%d", &arr[i]) != 1) {
+            return 1;
+        }
+    }
+
+    for (i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+
+    average = (float)sum / n;
+
+    printf("Sum = %d\n", sum);
+    printf("Average = %.2f\n", average);
+
     return 0;
 }

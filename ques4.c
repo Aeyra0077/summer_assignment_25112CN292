@@ -1,33 +1,34 @@
 #include <stdio.h>
 
-int isPerfect(int num) {
-    if (num <= 1) {
-        return 0;
-    }
-    
-    int sum = 0;
-    for (int i = 1; i <= num / 2; i++) {
-        if (num % i == 0) {
-            sum += i;
-        }
-    }
-    
-    return (sum == num);
-}
-
 int main() {
-    int number;
-    
-    printf("Enter a number: ");
-    if (scanf("%d", &number) != 1) {
+    int size;
+    int even_count = 0;
+    int odd_count = 0;
+
+    printf("Enter the number of elements: ");
+    if (scanf("%d", &size) != 1 || size <= 0) {
         return 1;
     }
-    
-    if (isPerfect(number)) {
-        printf("%d is a perfect number.\n", number);
-    } else {
-        printf("%d is not a perfect number.\n", number);
+
+    int arr[size];
+
+    printf("Enter %d elements:\n", size);
+    for (int i = 0; i < size; i++) {
+        if (scanf("%d", &arr[i]) != 1) {
+            return 1;
+        }
     }
-    
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] % 2 == 0) {
+            even_count++;
+        } else {
+            odd_count++;
+        }
+    }
+
+    printf("Total even elements: %d\n", even_count);
+    printf("Total odd elements: %d\n", odd_count);
+
     return 0;
 }
