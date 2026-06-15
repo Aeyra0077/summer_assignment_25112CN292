@@ -3,25 +3,18 @@ int main() {
     int n;
     printf("Enter the number of elements: ");
     scanf("%d", &n);
-
     int arr[n];
-    printf("Enter %d elements:\n", n);
+    printf("Enter the elements:\n");
     for (int i = 0; i < n; i++) {
         scanf("%d", &arr[i]);
-    } int max = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
-        }
+    } 
+    int rotatedright[n];
+    for (int i = 0; i < n; i++) {
+        rotatedright[i] = arr[(i - 1 + n) % n];
     }
-    int secondMax = arr[0];
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > secondMax && arr[i] < max) {
-            secondMax = arr[i];
-        }
+    printf("Rotated array:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", rotatedright[i]);
     }
-    printf("The second largest element in the array is: %d\n", secondMax);
     return 0;
 }
-
-    
