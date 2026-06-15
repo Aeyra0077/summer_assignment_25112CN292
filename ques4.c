@@ -1,34 +1,24 @@
 #include <stdio.h>
-
 int main() {
-    int size;
-    int even_count = 0;
-    int odd_count = 0;
-
+    int n;
     printf("Enter the number of elements: ");
-    if (scanf("%d", &size) != 1 || size <= 0) {
-        return 1;
+    scanf("%d", &n);
+
+    int arr[n];
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
     }
 
-    int arr[size];
-
-    printf("Enter %d elements:\n", size);
-    for (int i = 0; i < size; i++) {
-        if (scanf("%d", &arr[i]) != 1) {
-            return 1;
+    printf("Duplicate elements in the array are:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (arr[i] == arr[j]) {
+                printf("%d\n", arr[i]);
+                break;
+            }
         }
     }
-
-    for (int i = 0; i < size; i++) {
-        if (arr[i] % 2 == 0) {
-            even_count++;
-        } else {
-            odd_count++;
-        }
-    }
-
-    printf("Total even elements: %d\n", even_count);
-    printf("Total odd elements: %d\n", odd_count);
 
     return 0;
 }

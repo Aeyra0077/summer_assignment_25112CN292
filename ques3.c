@@ -1,35 +1,27 @@
 #include <stdio.h>
-
 int main() {
-    int arr[100];
-    int n, i, largest, smallest;
-
+    int n;
     printf("Enter the number of elements: ");
-    if (scanf("%d", &n) != 1 || n <= 0) {
-        return 1;
-    }
+    scanf("%d", &n);
 
+    int arr[n];
     printf("Enter %d elements:\n", n);
-    for (i = 0; i < n; i++) {
-        if (scanf("%d", &arr[i]) != 1) {
-            return 1;
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    } int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
         }
     }
-
-    largest = arr[0];
-    smallest = arr[0];
-
-    for (i = 1; i < n; i++) {
-        if (arr[i] > largest) {
-            largest = arr[i];
-        }
-        if (arr[i] < smallest) {
-            smallest = arr[i];
+    int secondMax = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > secondMax && arr[i] < max) {
+            secondMax = arr[i];
         }
     }
-
-    printf("Largest element: %d\n", largest);
-    printf("Smallest element: %d\n", smallest);
-
+    printf("The second largest element in the array is: %d\n", secondMax);
     return 0;
 }
+
+    

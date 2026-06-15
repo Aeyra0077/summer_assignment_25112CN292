@@ -1,32 +1,31 @@
 #include <stdio.h>
 
 int main() {
-    int n, i;
-    int sum = 0;
-    float average;
-
+    int n;
     printf("Enter the number of elements: ");
-    if (scanf("%d", &n) != 1 || n <= 0) {
-        return 1;
-    }
+    scanf("%d", &n);
 
     int arr[n];
-
+    int visited[n];
     printf("Enter %d elements:\n", n);
-    for (i = 0; i < n; i++) {
-        if (scanf("%d", &arr[i]) != 1) {
-            return 1;
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        visited[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (visited[i] == 1) {
+            continue;
         }
+        int count = 1;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[i] == arr[j]) {
+                count++;
+                visited[j] = 1;
+            }
+        }
+        printf("Element %d occurs %d times\n", arr[i], count);
     }
-
-    for (i = 0; i < n; i++) {
-        sum += arr[i];
-    }
-
-    average = (float)sum / n;
-
-    printf("Sum = %d\n", sum);
-    printf("Average = %.2f\n", average);
 
     return 0;
 }
