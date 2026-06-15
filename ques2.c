@@ -1,22 +1,20 @@
 #include <stdio.h>
 
+int findMax(int a, int b) {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 int main() {
-    int rows, i, j;
+    int num1 , num2;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &num1, &num2);
 
-    printf("Enter the number of rows: ");
-    if (scanf("%d", &rows) != 1) {
-        return 1;
-    }
-
-    for (i = rows; i >= 1; i--) {
-        for (j = 0; j < rows - i; j++) {
-            printf(" ");
-        }
-        for (j = 0; j < (2 * i - 1); j++) {
-            printf("*");
-        }
-        printf("\n");
-    }
-
+    int result = findMax(num1, num2);
+    
+    printf("The maximum is: %d\n", result);
     return 0;
 }

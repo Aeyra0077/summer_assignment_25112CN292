@@ -1,21 +1,27 @@
-#include <stdio.h> 
+#include <stdio.h>
 
-void main()
-{
-   int i, j, n; 
-   printf("Input number of rows : "); 
-   scanf("%d", &n); 
-
-   for(i = 0; i <= n; i++) 
-   {
-     for(j = 1; j <= n - i; j++) 
-       printf(" ");
-
-     for(j = 1; j <= i; j++) 
-       printf("%d", j);
-
-     for(j = i - 1; j >= 1; j--) 
-       printf("%d", j);
-        printf("\n");
+int isPrime(int n) {
+    if (n <= 1) {
+        return 0;
     }
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int num;
+    printf("Enter a number: ");
+    if (scanf("%d", &num) != 1) {
+        return 1;
+    }
+    if (isPrime(num)) {
+        printf("%d is a prime number.\n", num);
+    } else {
+        printf("%d is not a prime number.\n", num);
+    }
+    return 0;
 }
