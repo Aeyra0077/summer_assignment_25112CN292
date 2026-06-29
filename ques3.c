@@ -1,31 +1,40 @@
+#include <ctype.h>
 #include <stdio.h>
-
 int main() {
-    int rows, cols;
-    
-    printf("Enter number of rows and columns: ");
-    if (scanf("%d %d", &rows, &cols) != 2) {
-        return 1;
+
+  char line[150];
+  int vowels, consonant, digit, space;
+
+  vowels = consonant = digit = space = 0;
+
+  printf("Enter a line of string: ");
+  fgets(line, sizeof(line), stdin);
+
+  for (int i = 0; line[i] != '\0'; ++i) {
+
+    line[i] = tolower(line[i]);
+
+    if (line[i] == 'a' || line[i] == 'e' || line[i] == 'i' ||
+        line[i] == 'o' || line[i] == 'u') {
+
+      ++vowels;
     }
-    
-    int matrix[rows][cols];
-    
-    printf("Enter elements of the matrix:\n");
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            if (scanf("%d", &matrix[i][j]) != 1) {
-                return 1;
-            }
-        }
+    else if ((line[i] >= 'a' && line[i] <= 'z')) {
+      ++consonant;
     }
-    
-    for (int i = 0; i < rows; i++) {
-        int row_sum = 0;
-        for (int j = 0; j < cols; j++) {
-            row_sum += matrix[i][j];
-        }
-        printf("Sum of row %d = %d\n", i + 1, row_sum);
+
+    else if (line[i] >= '0' && line[i] <= '9') {
+      ++digit;
     }
-    
-    return 0;
+    else if (line[i] == ' ') {
+      ++space;
+    }
+  }
+
+  printf("Vowels: %d", vowels);
+  printf("\nConsonants: %d", consonant);
+  printf("\nDigits: %d", digit);
+  printf("\nWhite spaces: %d", space);
+
+  return 0;
 }

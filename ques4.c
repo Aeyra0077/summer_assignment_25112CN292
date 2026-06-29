@@ -1,27 +1,20 @@
 #include <stdio.h>
 
 int main() {
-    int rows, cols;
-    int matrix[100][100];
+    char str[100];
+    int i = 0;
 
-    printf("Enter numbers of rows and columns: ");
-    scanf("%d %d", &rows, &cols);
+    printf("Enter a lowercase string: ");
+    scanf("%99s", str);
 
-    printf("Enter matrix elements:\n");
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            scanf("%d", &matrix[i][j]);
+    while (str[i] != '\0') {
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            str[i] = str[i] - 32;
         }
+        i++;
     }
 
-    printf("\nColumn-wise sums:\n");
-    for (int j = 0; j < cols; j++) {
-        int col_sum = 0;
-        for (int i = 0; i < rows; i++) {
-            col_sum += matrix[i][j];
-        }
-        printf("Sum of Column %d = %d\n", j + 1, col_sum);
-    }
+    printf("Uppercase string: %s\n", str);
 
     return 0;
 }

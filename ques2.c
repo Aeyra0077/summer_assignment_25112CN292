@@ -1,47 +1,32 @@
 #include <stdio.h>
+#include <string.h>
+
+void reverseString(char str[]) {
+    int length = strlen(str);
+    int start = 0;
+    int end = length - 1;
+    char temp;
+
+    while (start < end) {
+        temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+}
 
 int main() {
-    int rows, cols;
-    
-    printf("Enter rows and columns: ");
-    if (scanf("%d %d", &rows, &cols) != 2) {
-        return 1;
-    }
-    
-    if (rows != cols) {
-        printf("The matrix is not symmetric.\n");
-        return 0;
-    }
-    
-    int matrix[rows][cols];
-    
-    printf("Enter matrix elements:\n");
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            if (scanf("%d", &matrix[i][j]) != 1) {
-                return 1;
-            }
-        }
-    }
-    
-    int is_symmetric = 1;
-    for (int i = 0; i < rows; i++) {
-        for (int j = i + 1; j < cols; j++) {
-            if (matrix[i][j] != matrix[j][i]) {
-                is_symmetric = 0;
-                break;
-            }
-        }
-        if (!is_symmetric) {
-            break;
-        }
-    }
-    
-    if (is_symmetric) {
-        printf("The matrix is symmetric.\n");
-    } else {
-        printf("The matrix is not symmetric.\n");
-    }
-    
+    char str[100];
+
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+
+    str[strcspn(str, "\n")] = '\0';
+
+    reverseString(str);
+
+    printf("Reversed string: %s\n", str);
+
     return 0;
 }

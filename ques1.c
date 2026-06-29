@@ -1,51 +1,22 @@
 #include <stdio.h>
 
 int main() {
-    int r1, c1, r2, c2;
+    char str[100];
+    int length = 0;
 
-    printf("Enter rows and columns for first matrix: ");
-    scanf("%d %d", &r1, &c1);
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
 
-    printf("Enter rows and columns for second matrix: ");
-    scanf("%d %d", &r2, &c2);
-
-    if (c1 != r2) {
-        printf("Error: Columns of first matrix must equal rows of second matrix.\n");
-        return 1;
+    while (str[length] != '\0') {
+        length++;
     }
 
-    int a[r1][c1], b[r2][c2], result[r1][c2];
-
-    printf("\nEnter elements of first matrix:\n");
-    for (int i = 0; i < r1; i++) {
-        for (int j = 0; j < c1; j++) {
-            scanf("%d", &a[i][j]);
-        }
+    if (length > 0 && str[length - 1] == '\n') {
+        str[length - 1] = '\0';
+        length--;
     }
 
-    printf("\nEnter elements of second matrix:\n");
-    for (int i = 0; i < r2; i++) {
-        for (int j = 0; j < c2; j++) {
-            scanf("%d", &b[i][j]);
-        }
-    }
-
-    for (int i = 0; i < r1; i++) {
-        for (int j = 0; j < c2; j++) {
-            result[i][j] = 0;
-            for (int k = 0; k < c1; k++) {
-                result[i][j] += a[i][k] * b[k][j];
-            }
-        }
-    }
-
-    printf("\nResultant Matrix:\n");
-    for (int i = 0; i < r1; i++) {
-        for (int j = 0; j < c2; j++) {
-            printf("%d\t", result[i][j]);
-        }
-        printf("\n");
-    }
+    printf("Length of the string: %d\n", length);
 
     return 0;
 }
