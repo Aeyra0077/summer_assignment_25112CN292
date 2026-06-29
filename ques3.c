@@ -1,32 +1,51 @@
 #include <stdio.h>
 
-void findPair(int arr[], int size, int target) {
-    int found = 0;
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = i + 1; j < size; j++) {
-            if (arr[i] + arr[j] == target) {
-                printf("Pair found: %d and %d\n", arr[i], arr[j]);
-                found = 1;
+int main() {
+    int i, j, k;
+    int size1, size2;
+    int arr1[100], arr2[100], intersection[100];
+    int index = 0;
+
+    printf("Enter number of elements in first array: ");
+    scanf("%d", &size1);
+
+    printf("Enter %d elements: ", size1);
+    for (i = 0; i < size1; i++) {
+        scanf("%d", &arr1[i]);
+    }
+
+    printf("Enter number of elements in second array: ");
+    scanf("%d", &size2);
+
+    printf("Enter %d elements: ", size2);
+    for (i = 0; i < size2; i++) {
+        scanf("%d", &arr2[i]);
+    }
+
+    for (i = 0; i < size1; i++) {
+        for (j = 0; j < size2; j++) {
+            if (arr1[i] == arr2[j]) {
+                int already_exists = 0;
+                for (k = 0; k < index; k++) {
+                    if (intersection[k] == arr1[i]) {
+                        already_exists = 1;
+                        break;
+                    }
+                }
+                if (!already_exists) {
+                    intersection[index] = arr1[i];
+                    index++;
+                }
+                break;
             }
         }
     }
-    if (!found) {
-        printf("No pair found with the given sum\n");
-    }
-}
 
-int main() {
-    int n, target;
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    int arr[n];
-    printf("Enter the elements: ");
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
+    printf("Intersection: ");
+    for (i = 0; i < index; i++) {
+        printf("%d ", intersection[i]);
     }
-    printf("Enter the target sum: ");
-    scanf("%d", &target);
-    int size = sizeof(arr) / sizeof(arr[0]);
-    findPair(arr, size, target);
+    printf("\n");
+
     return 0;
 }

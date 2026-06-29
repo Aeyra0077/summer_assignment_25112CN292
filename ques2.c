@@ -1,31 +1,58 @@
 #include <stdio.h>
 
 int main() {
-    int n, i, j, max_count = 0, max_element = 0, count;
-    
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-    
-    int arr[n];
-    printf("Enter the elements: ");
-    for(i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
+    int n1, n2;
+
+    printf("Enter size of first array: ");
+    scanf("%d", &n1);
+    int arr1[n1];
+    printf("Enter elements of first array: ");
+    for (int i = 0; i < n1; i++) {
+        scanf("%d", &arr1[i]);
     }
-    
-    for(i = 0; i < n; i++) {
-        count = 1;
-        for(j = i + 1; j < n; j++) {
-            if(arr[i] == arr[j]) {
-                count++;
+
+    printf("Enter size of second array: ");
+    scanf("%d", &n2);
+    int arr2[n2];
+    printf("Enter elements of second array: ");
+    for (int i = 0; i < n2; i++) {
+        scanf("%d", &arr2[i]);
+    }
+
+    int uni[n1 + n2];
+    int k = 0;
+
+    for (int i = 0; i < n1; i++) {
+        int duplicate = 0;
+        for (int j = 0; j < k; j++) {
+            if (arr1[i] == uni[j]) {
+                duplicate = 1;
+                break;
             }
         }
-        if(count > max_count) {
-            max_count = count;
-            max_element = arr[i];
+        if (!duplicate) {
+            uni[k++] = arr1[i];
         }
     }
-    
-    printf("Maximum frequency element: %d (occurs %d times)\n", max_element, max_count);
-    
+
+    for (int i = 0; i < n2; i++) {
+        int duplicate = 0;
+        for (int j = 0; j < k; j++) {
+            if (arr2[i] == uni[j]) {
+                duplicate = 1;
+                break;
+            }
+        }
+        if (!duplicate) {
+            uni[k++] = arr2[i];
+        }
+    }
+
+    printf("Union of the arrays: ");
+    for (int i = 0; i < k; i++) {
+        printf("%d ", uni[i]);
+    }
+    printf("\n");
+
     return 0;
 }
