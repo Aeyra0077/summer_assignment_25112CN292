@@ -1,45 +1,31 @@
 #include <stdio.h>
 
-int binarySearch(int arr[], int size, int target) {
-    int low = 0;
-    int high = size - 1;
-
-    while (low <= high) {
-        int mid = low + (high - low) / 2;
-
-        if (arr[mid] == target) {
-            return mid;
-        } else if (arr[mid] < target) {
-            low = mid + 1;
-        } else {
-            high = mid - 1;
+int main() {
+    int rows, cols;
+    
+    printf("Enter number of rows and columns: ");
+    if (scanf("%d %d", &rows, &cols) != 2) {
+        return 1;
+    }
+    
+    int matrix[rows][cols];
+    
+    printf("Enter elements of the matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (scanf("%d", &matrix[i][j]) != 1) {
+                return 1;
+            }
         }
     }
-
-    return -1;
-}
-
-int main() {
-    int m;
-    printf("Enter the number of elements: ");
-    scanf("%d", &m);
-    int arr[m];
-    printf("Enter the elements in sorted order:\n");
-    for (int i = 0; i < m; i++) {
-        scanf("%d", &arr[i]);
+    
+    for (int i = 0; i < rows; i++) {
+        int row_sum = 0;
+        for (int j = 0; j < cols; j++) {
+            row_sum += matrix[i][j];
+        }
+        printf("Sum of row %d = %d\n", i + 1, row_sum);
     }
-    int size = sizeof(arr) / sizeof(arr[0]);
-    int target;
-    printf("Enter the element to search: ");
-    scanf("%d", &target);
-
-    int result = binarySearch(arr, size, target);
-
-    if (result != -1) {
-        printf("Element found at index: %d\n", result);
-    } else {
-        printf("Element not found in the array.\n");
-    }
-
+    
     return 0;
 }

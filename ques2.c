@@ -1,38 +1,47 @@
 #include <stdio.h>
 
-void selectionSort(int arr[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        int minIndex = i;
-        for (int j = i + 1; j < size; j++) {
-            if (arr[j] < arr[minIndex]) {
-                minIndex = j;
+int main() {
+    int rows, cols;
+    
+    printf("Enter rows and columns: ");
+    if (scanf("%d %d", &rows, &cols) != 2) {
+        return 1;
+    }
+    
+    if (rows != cols) {
+        printf("The matrix is not symmetric.\n");
+        return 0;
+    }
+    
+    int matrix[rows][cols];
+    
+    printf("Enter matrix elements:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (scanf("%d", &matrix[i][j]) != 1) {
+                return 1;
             }
         }
-        if (minIndex != i) {
-            int temp = arr[i];
-            arr[i] = arr[minIndex];
-            arr[minIndex] = temp;
+    }
+    
+    int is_symmetric = 1;
+    for (int i = 0; i < rows; i++) {
+        for (int j = i + 1; j < cols; j++) {
+            if (matrix[i][j] != matrix[j][i]) {
+                is_symmetric = 0;
+                break;
+            }
+        }
+        if (!is_symmetric) {
+            break;
         }
     }
-}
-
-int main() {
-    int m;
-    printf("Enter the number of elements: ");
-    scanf("%d", &m);
-    int arr[m];
-    printf("Enter the elements:\n");
-    for (int i = 0; i < m; i++) {
-        scanf("%d", &arr[i]);
+    
+    if (is_symmetric) {
+        printf("The matrix is symmetric.\n");
+    } else {
+        printf("The matrix is not symmetric.\n");
     }
-    int size = sizeof(arr) / sizeof(arr[0]);
-
-    selectionSort(arr, size);
-
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-
+    
     return 0;
 }

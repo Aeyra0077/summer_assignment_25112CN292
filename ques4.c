@@ -1,39 +1,27 @@
 #include <stdio.h>
 
 int main() {
-    int n, i, j, temp;
+    int rows, cols;
+    int matrix[100][100];
 
-    printf("Enter number of elements: ");
-    if (scanf("%d", &n) != 1 || n <= 0) {
-        return 1;
-    }
+    printf("Enter numbers of rows and columns: ");
+    scanf("%d %d", &rows, &cols);
 
-    int arr[n];
-
-    printf("Enter %d elements:\n", n);
-    for (i = 0; i < n; i++) {
-        if (scanf("%d", &arr[i]) != 1) {
-            return 1;
+    printf("Enter matrix elements:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf("%d", &matrix[i][j]);
         }
     }
 
-    for (i = 0; i < n - 1; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (arr[i] < arr[j]) {
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
+    printf("\nColumn-wise sums:\n");
+    for (int j = 0; j < cols; j++) {
+        int col_sum = 0;
+        for (int i = 0; i < rows; i++) {
+            col_sum += matrix[i][j];
         }
+        printf("Sum of Column %d = %d\n", j + 1, col_sum);
     }
-
-    printf("Sorted array in descending order:\n");
-    for (i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
 
     return 0;
 }
-
-

@@ -1,34 +1,51 @@
 #include <stdio.h>
 
-void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+int main() {
+    int r1, c1, r2, c2;
+
+    printf("Enter rows and columns for first matrix: ");
+    scanf("%d %d", &r1, &c1);
+
+    printf("Enter rows and columns for second matrix: ");
+    scanf("%d %d", &r2, &c2);
+
+    if (c1 != r2) {
+        printf("Error: Columns of first matrix must equal rows of second matrix.\n");
+        return 1;
+    }
+
+    int a[r1][c1], b[r2][c2], result[r1][c2];
+
+    printf("\nEnter elements of first matrix:\n");
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c1; j++) {
+            scanf("%d", &a[i][j]);
+        }
+    }
+
+    printf("\nEnter elements of second matrix:\n");
+    for (int i = 0; i < r2; i++) {
+        for (int j = 0; j < c2; j++) {
+            scanf("%d", &b[i][j]);
+        }
+    }
+
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < c1; k++) {
+                result[i][j] += a[i][k] * b[k][j];
             }
         }
     }
-}
 
-int main() {
-    int m;
-    printf("Enter the number of elements: ");
-    scanf("%d", &m);
-    int arr[m];
-    printf("Enter the elements:\n");
-    for (int i = 0; i < m; i++) {
-        scanf("%d", &arr[i]);
+    printf("\nResultant Matrix:\n");
+    for (int i = 0; i < r1; i++) {
+        for (int j = 0; j < c2; j++) {
+            printf("%d\t", result[i][j]);
+        }
+        printf("\n");
     }
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    bubbleSort(arr, n);
-
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
 
     return 0;
 }
