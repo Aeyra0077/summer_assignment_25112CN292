@@ -1,42 +1,45 @@
 #include <stdio.h>
-#include <string.h>
+#include <ctype.h>
 
 int main() {
-    char str[200];
-    char words[50][50];
-    int i = 0, j = 0, k = 0, word_count = 0;
+    char *questions[] = {
+        "1. What is the capital of France?",
+        "2. Which planet is known as the Red Planet?",
+        "3. What is 2 + 2?"
+    };
 
-    printf("Enter a sentence: ");
-    fgets(str, sizeof(str), stdin);
-    str[strcspn(str, "\n")] = '\0';
+    char *options[][4] = {
+        {"A. Berlin", "B. Madrid", "C. Paris", "D. Rome"},
+        {"A. Earth", "B. Mars", "C. Venus", "D. Jupiter"},
+        {"A. 3", "B. 4", "C. 5", "D. 6"}
+    };
 
-    for(i = 0; str[i] != '\0'; i++) {
-        if(str[i] == ' ') {
-            words[word_count][j] = '\0';
-            word_count++;
-            j = 0;
+    char keys[] = {'C', 'B', 'B'};
+    int score = 0;
+    int total = sizeof(questions) / sizeof(questions[0]);
+    char guess;
+
+    for(int i = 0; i < total; i++) {
+        printf("%s\n", questions[i]);
+        for(int j = 0; j < 4; j++) {
+            printf("%s\n", options[i][j]);
+        }
+        
+        printf("Enter your answer (A, B, C, or D): ");
+        scanf(" %c", &guess);
+        
+        guess = toupper(guess);
+        
+        if(guess == keys[i]) {
+            printf("Correct!\n\n");
+            score++;
         } else {
-            words[word_count][j++] = str[i];
-        }
-    }
-    words[word_count][j] = '\0';
-    word_count++;
-
-    for(i = 0; i < word_count - 1; i++) {
-        for(j = 0; j < word_count - i - 1; j++) {
-            if(strlen(words[j]) > strlen(words[j+1])) {
-                char temp[50];
-                strcpy(temp, words[j]);
-                strcpy(words[j], words[j+1]);
-                strcpy(words[j+1], temp);
-            }
+            printf("Incorrect. The correct answer was %c.\n\n", keys[i]);
         }
     }
 
-    printf("\nWords sorted by length:\n");
-    for(i = 0; i < word_count; i++) {
-        printf("%s\n", words[i]);
-    }
-
+    printf("Quiz Over!\n");
+    printf("Your final score is: %d out of %d\n", score, total);
+    
     return 0;
 }

@@ -1,34 +1,77 @@
 #include <stdio.h>
-#include <string.h>
 
 int main() {
-    int n;
-    printf("Enter the number of names: ");
-    if (scanf("%d", &n) != 1 || n <= 0) {
-        return 1;
-    }
+    int pin = 1234;
+    int entered_pin;
+    int choice;
+    int attempts = 0;
+    float balance = 5000.0;
+    float amount;
 
-    char names[100][50];
-    char temp[50];
+    printf("=== Welcome to the ATM ===\n");
 
-    printf("Enter %d names:\n", n);
-    for (int i = 0; i < n; i++) {
-        scanf("%s", names[i]);
-    }
+    while (attempts < 3) {
+        printf("Enter your 4-digit PIN: ");
+        scanf("%d", &entered_pin);
 
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (strcmp(names[i], names[j]) > 0) {
-                strcpy(temp, names[i]);
-                strcpy(names[i], names[j]);
-                strcpy(names[j], temp);
-            }
+        if (entered_pin == pin) {
+            break;
+        } else {
+            attempts++;
+            printf("Incorrect PIN. Attempts remaining: %d\n\n", 3 - attempts);
         }
     }
 
-    printf("\nNames in alphabetical order:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s\n", names[i]);
+    if (attempts == 3) {
+        printf("Too many incorrect attempts. Your card has been blocked.\n");
+        return 0;
+    }
+
+    while (1) {
+        printf("\n=== ATM Main Menu ===\n");
+        printf("1. Check Balance\n");
+        printf("2. Deposit Money\n");
+        printf("3. Withdraw Money\n");
+        printf("4. Exit\n");
+        printf("Select an option (1-4): ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("\nYour current balance is: $%.2f\n", balance);
+                break;
+
+            case 2:
+                printf("\nEnter the amount to deposit: $");
+                scanf("%f", &amount);
+                if (amount > 0) {
+                    balance += amount;
+                    printf("$%.2f successfully deposited.\n", amount);
+                } else {
+                    printf("Invalid deposit amount.\n");
+                }
+                break;
+
+            case 3:
+                printf("\nEnter the amount to withdraw: $");
+                scanf("%f", &amount);
+                if (amount > 0 && amount <= balance) {
+                    balance -= amount;
+                    printf("$%.2f successfully withdrawn.\n", amount);
+                } else if (amount > balance) {
+                    printf("Insufficient balance.\n");
+                } else {
+                    printf("Invalid withdrawal amount.\n");
+                }
+                break;
+
+            case 4:
+                printf("\nThank you for using the ATM. Goodbye!\n");
+                return 0;
+
+            default:
+                printf("\nInvalid option. Please choose between 1 and 4.\n");
+        }
     }
 
     return 0;
