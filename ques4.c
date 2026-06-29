@@ -1,22 +1,33 @@
 #include <stdio.h>
-
-void remove_spaces(char *str) {
-    int count = 0;
-    for (int i = 0; str[i]; i++) {
-        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n' && str[i] != '\r') {
-            str[count++] = str[i];
-        }
-    }
-    str[count] = '\0';
-}
+#include <string.h>
 
 int main() {
-    char text[1000];
+    char str[256];
+    int freq[256] = {0};
+    int max = 0;
+    char max_char;
+
     printf("Enter a string: ");
-    fgets(text, sizeof(text), stdin);
-    
-    printf("Original: %s\n", text);
-    remove_spaces(text);
-    printf("Modified: %s\n", text);
+    fgets(str, sizeof(str), stdin);
+
+    str[strcspn(str, "\n")] = '\0';
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        freq[(unsigned char)str[i]]++;
+    }
+
+    for (int i = 0; i < 256; i++) {
+        if (freq[i] > max) {
+            max = freq[i];
+            max_char = (char)i;
+        }
+    }
+
+    if (max > 0) {
+        printf("Maximum occurring character is '%c' (occurs %d times).\n", max_char, max);
+    } else {
+        printf("The string is empty.\n");
+    }
+
     return 0;
 }
