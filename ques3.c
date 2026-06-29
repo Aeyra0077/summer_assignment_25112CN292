@@ -2,40 +2,34 @@
 #include <string.h>
 
 int main() {
-    char str[500];
-    char longest[500] = "";
-    char current[500];
-    int i = 0, j = 0;
-
-    printf("Enter a string: ");
-    if (fgets(str, sizeof(str), stdin) == NULL) {
+    int n;
+    printf("Enter the number of names: ");
+    if (scanf("%d", &n) != 1 || n <= 0) {
         return 1;
     }
 
-    while (str[i] != '\0') {
-        if (str[i] != ' ' && str[i] != '\n' && str[i] != '\t') {
-            current[j++] = str[i];
-        } else {
-            if (j > 0) {
-                current[j] = '\0';
-                if (strlen(current) > strlen(longest)) {
-                    strcpy(longest, current);
-                }
-                j = 0;
+    char names[100][50];
+    char temp[50];
+
+    printf("Enter %d names:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%s", names[i]);
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (strcmp(names[i], names[j]) > 0) {
+                strcpy(temp, names[i]);
+                strcpy(names[i], names[j]);
+                strcpy(names[j], temp);
             }
         }
-        i++;
     }
 
-    if (j > 0) {
-        current[j] = '\0';
-        if (strlen(current) > strlen(longest)) {
-            strcpy(longest, current);
-        }
+    printf("\nNames in alphabetical order:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s\n", names[i]);
     }
-
-    printf("Longest word: %s\n", longest);
-    printf("Length: %lu\n", (unsigned long)strlen(longest));
 
     return 0;
 }
