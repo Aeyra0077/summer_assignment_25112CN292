@@ -1,38 +1,44 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-char findFirstUnique(char *str) {
-    int count[256] = {0};
-    int i;
+int areRotations(char *str1, char *str2) {
+    int len1 = strlen(str1);
+    int len2 = strlen(str2);
     
-    for (i = 0; str[i] != '\0'; i++) {
-        count[(unsigned char)str[i]]++;
+    if (len1 != len2) {
+        return 0;
     }
     
-    for (i = 0; str[i] != '\0'; i++) {
-        if (count[(unsigned char)str[i]] == 1) {
-            return str[i];
-        }
+    char *temp = (char *)malloc(sizeof(char) * (len1 * 2 + 1));
+    if (temp == NULL) {
+        return 0;
     }
     
-    return '\0';
+    temp[0] = '\0';
+    strcat(temp, str1);
+    strcat(temp, str1);
+    
+    int result = 0;
+    if (strstr(temp, str2) != NULL) {
+        result = 1;
+    }
+    
+    free(temp);
+    return result;
 }
 
 int main() {
-    char str[100];
-    char result;
+    char str1[100], str2[100];
+    printf("Enter the first string: ");
+    scanf("%s", str1);
+    printf("Enter the second string: ");
+    scanf("%s", str2);
     
-    printf("Enter a string: ");
-    if (fgets(str, sizeof(str), stdin)) {
-        str[strcspn(str, "\n")] = '\0';
-        
-        result = findFirstUnique(str);
-        
-        if (result != '\0') {
-            printf("The first non-repeating character is: %c\n", result);
-        } else {
-            printf("All characters are repeating or the string is empty.\n");
-        }
+    if (areRotations(str1, str2)) {
+        printf("The strings are rotations of each other.\n");
+    } else {
+        printf("The strings are not rotations of each other.\n");
     }
     
     return 0;

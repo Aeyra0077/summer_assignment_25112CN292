@@ -1,33 +1,29 @@
 #include <stdio.h>
-#include <string.h>
 
-char find_first_repeating(const char *str) {
-    int seen[256] = {0};
-    
-    for (int i = 0; str[i] != '\0'; i++) {
-        unsigned char ch = str[i];
-        if (seen[ch] == 1) {
-            return ch;
+void compressString(char *src, char *dest) {
+    int i = 0, j = 0;
+    while (src[i] != '\0') {
+        dest[j++] = src[i];
+        int count = 1;
+        while (src[i] == src[i + 1]) {
+            count++;
+            i++;
         }
-        seen[ch] = 1;
+        j += sprintf(&dest[j], "%d", count);
+        i++;
     }
-    
-    return '\0';
+    dest[j] = '\0';
 }
 
 int main() {
-    char str[100];
-    printf("Enter a string: ");
-    if (fgets(str, sizeof(str), stdin)) {
-        str[strcspn(str, "\n")] = '\0'; 
-    char result = find_first_repeating(str);
+    char str[100], compressed[200];
+    printf("Enter the string to compress: ");
+    scanf("%s", str);
     
-    if (result != '\0') {
-        printf("First repeating character: %c\n", result);
-    } else {
-        printf("No repeating character found.\n");
-    }
+    compressString(str, compressed);
+    
+    printf("Original: %s\n", str);
+    printf("Compressed: %s\n", compressed);
     
     return 0;
-}
 }

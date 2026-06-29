@@ -1,45 +1,41 @@
 #include <stdio.h>
 #include <string.h>
 
-int check_anagram(char str1[], char str2[]) {
-    int count[256] = {0};
-    int i;
+int main() {
+    char str[500];
+    char longest[500] = "";
+    char current[500];
+    int i = 0, j = 0;
 
-    if (strlen(str1) != strlen(str2)) {
-        return 0;
+    printf("Enter a string: ");
+    if (fgets(str, sizeof(str), stdin) == NULL) {
+        return 1;
     }
 
-    for (i = 0; str1[i] != '\0'; i++) {
-        count[(unsigned char)str1[i]]++;
+    while (str[i] != '\0') {
+        if (str[i] != ' ' && str[i] != '\n' && str[i] != '\t') {
+            current[j++] = str[i];
+        } else {
+            if (j > 0) {
+                current[j] = '\0';
+                if (strlen(current) > strlen(longest)) {
+                    strcpy(longest, current);
+                }
+                j = 0;
+            }
+        }
+        i++;
     }
 
-    for (i = 0; str2[i] != '\0'; i++) {
-        count[(unsigned char)str2[i]]--;
-    }
-
-    for (i = 0; i < 256; i++) {
-        if (count[i] != 0) {
-            return 0;
+    if (j > 0) {
+        current[j] = '\0';
+        if (strlen(current) > strlen(longest)) {
+            strcpy(longest, current);
         }
     }
 
-    return 1;
-}
-
-int main() {
-    char str1[100], str2[100];
-
-    printf("Enter first string: ");
-    scanf("%99s", str1);
-
-    printf("Enter second string: ");
-    scanf("%99s", str2);
-
-    if (check_anagram(str1, str2)) {
-        printf("The strings are anagrams.\n");
-    } else {
-        printf("The strings are not anagrams.\n");
-    }
+    printf("Longest word: %s\n", longest);
+    printf("Length: %lu\n", (unsigned long)strlen(longest));
 
     return 0;
 }
