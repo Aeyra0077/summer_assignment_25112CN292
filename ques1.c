@@ -1,20 +1,19 @@
 #include <stdio.h>
+
+int findMissingNumber(int arr[], int n) {
+    int totalSum = (n * (n + 1)) / 2;
+    int arraySum = 0;
+    for (int i = 0; i < n - 1; i++) {
+        arraySum += arr[i];
+    }
+    return totalSum - arraySum;
+}
+
 int main() {
-    int n;
-    printf("Enter the number of elements: ");
-    scanf("%d", &n);
-    int arr[n];
-    printf("Enter the elements:\n");
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-    }
-    int reversed[n];
-    for (int i = 0; i < n; i++) {
-        reversed[i] = arr[n - 1 - i];
-    }
-    printf("Reversed array:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", reversed[i]);
-    }
+    int arr[] = {1, 2, 4, 5, 6};
+    int n = 6; 
+    int missingNumber = findMissingNumber(arr, n);
+    printf("The missing number is: %d\n", missingNumber);
     return 0;
 }
+ 
