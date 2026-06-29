@@ -1,56 +1,36 @@
 #include <stdio.h>
 
+void selectionSort(int arr[], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < size; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        if (minIndex != i) {
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+}
+
 int main() {
-    int n1, n2;
-
-    printf("Enter size of first array: ");
-    scanf("%d", &n1);
-    int arr1[n1];
-    printf("Enter elements of first array: ");
-    for (int i = 0; i < n1; i++) {
-        scanf("%d", &arr1[i]);
+    int m;
+    printf("Enter the number of elements: ");
+    scanf("%d", &m);
+    int arr[m];
+    printf("Enter the elements:\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &arr[i]);
     }
+    int size = sizeof(arr) / sizeof(arr[0]);
 
-    printf("Enter size of second array: ");
-    scanf("%d", &n2);
-    int arr2[n2];
-    printf("Enter elements of second array: ");
-    for (int i = 0; i < n2; i++) {
-        scanf("%d", &arr2[i]);
-    }
+    selectionSort(arr, size);
 
-    int uni[n1 + n2];
-    int k = 0;
-
-    for (int i = 0; i < n1; i++) {
-        int duplicate = 0;
-        for (int j = 0; j < k; j++) {
-            if (arr1[i] == uni[j]) {
-                duplicate = 1;
-                break;
-            }
-        }
-        if (!duplicate) {
-            uni[k++] = arr1[i];
-        }
-    }
-
-    for (int i = 0; i < n2; i++) {
-        int duplicate = 0;
-        for (int j = 0; j < k; j++) {
-            if (arr2[i] == uni[j]) {
-                duplicate = 1;
-                break;
-            }
-        }
-        if (!duplicate) {
-            uni[k++] = arr2[i];
-        }
-    }
-
-    printf("Union of the arrays: ");
-    for (int i = 0; i < k; i++) {
-        printf("%d ", uni[i]);
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
     }
     printf("\n");
 

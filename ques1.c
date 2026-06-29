@@ -1,39 +1,32 @@
 #include <stdio.h>
 
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
 int main() {
-    int arr1[100], arr2[100], merged[200];
-    int size1, size2, total_size;
-    int i;
-
-    printf("Enter number of elements in first array: ");
-    scanf("%d", &size1);
-
-    printf("Enter %d elements: ", size1);
-    for (i = 0; i < size1; i++) {
-        scanf("%d", &arr1[i]);
+    int m;
+    printf("Enter the number of elements: ");
+    scanf("%d", &m);
+    int arr[m];
+    printf("Enter the elements:\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &arr[i]);
     }
+    int n = sizeof(arr) / sizeof(arr[0]);
 
-    printf("Enter number of elements in second array: ");
-    scanf("%d", &size2);
+    bubbleSort(arr, n);
 
-    printf("Enter %d elements: ", size2);
-    for (i = 0; i < size2; i++) {
-        scanf("%d", &arr2[i]);
-    }
-
-    total_size = size1 + size2;
-
-    for (i = 0; i < size1; i++) {
-        merged[i] = arr1[i];
-    }
-
-    for (i = 0; i < size2; i++) {
-        merged[size1 + i] = arr2[i];
-    }
-
-    printf("Merged array elements: ");
-    for (i = 0; i < total_size; i++) {
-        printf("%d ", merged[i]);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
     }
     printf("\n");
 

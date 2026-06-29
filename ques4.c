@@ -1,49 +1,39 @@
 #include <stdio.h>
 
 int main() {
-    int n1, n2;
+    int n, i, j, temp;
 
-    printf("Enter number of elements for first array: ");
-    if (scanf("%d", &n1) != 1 || n1 <= 0) return 1;
-    int arr1[n1];
-    printf("Enter %d elements: ", n1);
-    for (int i = 0; i < n1; i++) {
-        if (scanf("%d", &arr1[i]) != 1) return 1;
+    printf("Enter number of elements: ");
+    if (scanf("%d", &n) != 1 || n <= 0) {
+        return 1;
     }
 
-    printf("Enter number of elements for second array: ");
-    if (scanf("%d", &n2) != 1 || n2 <= 0) return 1;
-    int arr2[n2];
-    printf("Enter %d elements: ", n2);
-    for (int i = 0; i < n2; i++) {
-        if (scanf("%d", &arr2[i]) != 1) return 1;
-    }
+    int arr[n];
 
-    printf("Common elements: ");
-    int foundAny = 0;
-    for (int i = 0; i < n1; i++) {
-        int isDuplicate = 0;
-        for (int k = 0; k < i; k++) {
-            if (arr1[i] == arr1[k]) {
-                isDuplicate = 1;
-                break;
-            }
+    printf("Enter %d elements:\n", n);
+    for (i = 0; i < n; i++) {
+        if (scanf("%d", &arr[i]) != 1) {
+            return 1;
         }
-        if (isDuplicate) continue;
+    }
 
-        for (int j = 0; j < n2; j++) {
-            if (arr1[i] == arr2[j]) {
-                printf("%d ", arr1[i]);
-                foundAny = 1;
-                break;
+    for (i = 0; i < n - 1; i++) {
+        for (j = i + 1; j < n; j++) {
+            if (arr[i] < arr[j]) {
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
         }
     }
 
-    if (!foundAny) {
-        printf("None");
+    printf("Sorted array in descending order:\n");
+    for (i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
     }
     printf("\n");
 
     return 0;
 }
+
+
