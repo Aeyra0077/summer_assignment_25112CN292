@@ -1,32 +1,25 @@
 #include <stdio.h>
-#include <string.h>
-
-void reverseString(char str[]) {
-    int length = strlen(str);
-    int start = 0;
-    int end = length - 1;
-    char temp;
-
-    while (start < end) {
-        temp = str[start];
-        str[start] = str[end];
-        str[end] = temp;
-        start++;
-        end--;
-    }
-}
 
 int main() {
-    char str[100];
+    char str[1000];
+    int i = 0;
+    int words = 0;
+    int in_word = 0;
 
-    printf("Enter a string: ");
+    printf("Enter a sentence: ");
     fgets(str, sizeof(str), stdin);
 
-    str[strcspn(str, "\n")] = '\0';
+    while (str[i] != '\0') {
+        if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n') {
+            in_word = 0;
+        } else if (in_word == 0) {
+            in_word = 1;
+            words++;
+        }
+        i++;
+    }
 
-    reverseString(str);
-
-    printf("Reversed string: %s\n", str);
+    printf("Total words: %d\n", words);
 
     return 0;
 }

@@ -1,22 +1,28 @@
 #include <stdio.h>
+#include <string.h>
 
 int main() {
     char str[100];
-    int length = 0;
+    int i, len;
+    int isPalindrome = 1;
 
     printf("Enter a string: ");
-    fgets(str, sizeof(str), stdin);
+    scanf("%s", str);
 
-    while (str[length] != '\0') {
-        length++;
+    len = strlen(str);
+
+    for (i = 0; i < len / 2; i++) {
+        if (str[i] != str[len - 1 - i]) {
+            isPalindrome = 0;
+            break;
+        }
     }
 
-    if (length > 0 && str[length - 1] == '\n') {
-        str[length - 1] = '\0';
-        length--;
+    if (isPalindrome) {
+        printf("%s is a palindrome.\n", str);
+    } else {
+        printf("%s is not a palindrome.\n", str);
     }
-
-    printf("Length of the string: %d\n", length);
 
     return 0;
 }

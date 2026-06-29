@@ -1,20 +1,22 @@
 #include <stdio.h>
 
-int main() {
-    char str[100];
-    int i = 0;
-
-    printf("Enter a lowercase string: ");
-    scanf("%99s", str);
-
-    while (str[i] != '\0') {
-        if (str[i] >= 'a' && str[i] <= 'z') {
-            str[i] = str[i] - 32;
+void remove_spaces(char *str) {
+    int count = 0;
+    for (int i = 0; str[i]; i++) {
+        if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n' && str[i] != '\r') {
+            str[count++] = str[i];
         }
-        i++;
     }
+    str[count] = '\0';
+}
 
-    printf("Uppercase string: %s\n", str);
-
+int main() {
+    char text[1000];
+    printf("Enter a string: ");
+    fgets(text, sizeof(text), stdin);
+    
+    printf("Original: %s\n", text);
+    remove_spaces(text);
+    printf("Modified: %s\n", text);
     return 0;
 }
