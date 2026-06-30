@@ -1,124 +1,132 @@
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 
-#define MAX_ITEMS 100
+#define MAX_STUDENTS 100
+#define NAME_LENGTH 50
 
-struct Item {
-    int id;
-    char name[50];
-    int quantity;
-    float price;
-};
+int ids[MAX_STUDENTS];
+char names[MAX_STUDENTS][NAME_LENGTH];
+float grades[MAX_STUDENTS];
+int student_count = 0;
 
-struct Item inventory[MAX_ITEMS];
-int itemCount = 0;
-
-void addItem() {
-    if (itemCount >= MAX_ITEMS) {
-        printf("\nInventory is full!\n");
+void add_student() {
+    if (student_count >= MAX_STUDENTS) {
+        printf("\nDatabase is full!\n");
         return;
     }
-    struct Item newItem;
-    printf("\nEnter Item ID: ");
-    scanf("%d", &newItem.id);
-    for (int i = 0; i < itemCount; i++) {
-        if (inventory[i].id == newItem.id) {
-            printf("Error: Item ID already exists!\n");
-            return;
-        }
-    }
-    printf("Enter Item Name: ");
-    scanf("%s", newItem.name);
-    printf("Enter Quantity: ");
-    scanf("%d", &newItem.quantity);
-    printf("Enter Price: ");
-    scanf("%f", &newItem.price);
-    inventory[itemCount] = newItem;
-    itemCount++;
-    printf("Item added successfully!\n");
+    
+    printf("\nEnter Student ID: ");
+    scanf("%d", &ids[student_count]);
+    getchar();
+    
+    printf("Enter Student Name: ");
+    fgets(names[student_count], NAME_LENGTH, stdin);
+    names[student_count][strcspn(names[student_count], "\n")] = '\0';
+    
+    printf("Enter Student Grade: ");
+    scanf("%f", &grades[student_count]);
+    
+    student_count++;
+    printf("\nStudent added successfully!\n");
 }
 
-void displayInventory() {
-    if (itemCount == 0) {
-        printf("\nInventory is empty!\n");
+void display_students() {
+    if (student_count == 0) {
+        printf("\nNo student records found.\n");
         return;
     }
-    printf("\n=== Current Inventory ===\n");
-    printf("%-10s %-25s %-10s %-10s\n", "ID", "Name", "Quantity", "Price");
-    for (int i = 0; i < itemCount; i++) {
-        printf("%-10d %-25s %-10d $%-9.2f\n", inventory[i].id, inventory[i].name, inventory[i].quantity, inventory[i].price);
+    
+    printf("\n--- Student Records ---\n");
+    printf("%-10s %-30s %-10s\n", "ID", "Name", "Grade");
+    for (int i = 0; i < student_count; i++) {
+        printf("%-10d %-30s %-10.2f\n", ids[i], names[i], grades[i]);
     }
 }
 
-void searchItem() {
-    if (itemCount == 0) {
-        printf("\nInventory is empty!\n");
+void search_student() {
+    if (student_count == 0) {
+        printf("\nNo student records found to search.\n");
         return;
     }
-    int searchId;
-    printf("\nEnter Item ID to search: ");
-    scanf("%d", &searchId);
-    for (int i = 0; i < itemCount; i++) {
-        if (inventory[i].id == searchId) {
-            printf("\nItem Found:\n");
-            printf("ID: %d\nName: %s\nQuantity: %d\nPrice: $%.2f\n", inventory[i].id, inventory[i].name, inventory[i].quantity, inventory[i].price);
-            return;
+    
+    char search_name[NAME_LENGTH];
+    getchar();
+    printf("\nEnter Student Name to search: ");
+    fgets(search_name, NAME_LENGTH, stdin);
+    search_name[strcspn(search_name, "\n")] = '\0';
+    
+    int found = 0;
+    for (int i = 0; i < student_count; i++) {
+        if (strcasecmp(names[i], search_name) == 0) {
+            if (!found) {
+                printf("\nStudent Found:\n");
+                printf("%-10s %-30s %-10s\n", "ID", "Name", "Grade");
+            }
+            printf("%-10d %-30s %-10.2f\n", ids[i], names[i], grades[i]);
+            found = 1;
         }
     }
-    printf("Item with ID %d not found.\n", searchId);
+    
+    if (!found) {
+        printf("\nStudent '%s' not found.\n", search_name);
+    }
 }
 
-void updateQuantity() {
-    if (itemCount == 0) {
-        printf("\nInventory is empty!\n");
+void calculate_average() {
+    if (student_count == 0) {
+        printf("\nNo data to calculate average.\n");
         return;
     }
-    int searchId, newQty;
-    printf("\nEnter Item ID to update quantity: ");
-    scanf("%d", &searchId);
-    for (int i = 0; i < itemCount; i++) {
-        if (inventory[i].id == searchId) {
-            printf("Current Quantity: %d\n", inventory[i].quantity);
-            printf("Enter New Quantity: ");
-            scanf("%d", &newQty);
-            inventory[i].quantity = newQty;
-            printf("Quantity updated successfully!\n");
-            return;
-        }
+    
+    float sum = 0;
+    for (int i = 0; i < student_count; i++) {
+        sum += grades[i];
     }
-    printf("Item with ID %d not found.\n", searchId);
+    
+    printf("\nTotal Students: %d\n", student_count);
+    printf("Class Average Grade: %.2f\n", sum / student_count);
 }
 
 int main() {
     int choice;
-    do {
-        printf("\n*** Inventory Management System ***\n");
-        printf("1. Add New Item\n");
-        printf("2. Display All Items\n");
-        printf("3. Search Item by ID\n");
-        printf("4. Update Item Quantity\n");
+    
+    while (1) {
+        printf("\n=== STUDENT DATABASE MANAGEMENT SYSTEM ===\n");
+        printf("1. Add Student\n");
+        printf("2. Display All Students\n");
+        printf("3. Search Student by Name\n");
+        printf("4. Calculate Class Average\n");
         printf("5. Exit\n");
         printf("Enter your choice (1-5): ");
-        scanf("%d", &choice);
+        
+        if (scanf("%d", &choice) != 1) {
+            printf("\nInvalid input. Exiting program.\n");
+            break;
+        }
+        
+        if (choice == 5) {
+            printf("\nExiting System. Goodbye!\n");
+            break;
+        }
+        
         switch (choice) {
             case 1:
-                addItem();
+                add_student();
                 break;
             case 2:
-                displayInventory();
+                display_students();
                 break;
             case 3:
-                searchItem();
+                search_student();
                 break;
             case 4:
-                updateQuantity();
-                break;
-            case 5:
-                printf("\nExiting system. Goodbye!\n");
+                calculate_average();
                 break;
             default:
-                printf("\nInvalid choice! Please choose between 1 and 5.\n");
+                printf("\nInvalid choice! Please select between 1 and 5.\n");
         }
-    } while (choice != 5);
+    }
+    
     return 0;
 }

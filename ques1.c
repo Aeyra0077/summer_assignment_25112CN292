@@ -1,57 +1,95 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
-int main() {
-    int choice;
-    double num1, num2, result;
+#define MAX_STUDENTS 100
 
-    while (1) {
-        printf("\n=== CALCULATOR MENU ===\n");
-        printf("1. Addition\n");
-        printf("2. Subtraction\n");
-        printf("3. Multiplication\n");
-        printf("4. Division\n");
-        printf("5. Exit\n");
-        printf("Enter your choice (1-5): ");
-        scanf("%d", &choice);
+struct Student {
+    int id;
+    char name[50];
+    float gpa;
+};
 
-        if (choice == 5) {
-            printf("Exiting the program.\n");
+void addStudent(struct Student arr[], int *count) {
+    if (*count >= MAX_STUDENTS) {
+        printf("\nSystem full!\n");
+        return;
+    }
+    printf("\nEnter ID: ");
+    scanf("%d", &arr[*count].id);
+    getchar();
+    printf("Enter Name: ");
+    fgets(arr[*count].name, sizeof(arr[*count].name), stdin);
+    arr[*count].name[strcspn(arr[*count].name, "\n")] = '\0';
+    printf("Enter GPA: ");
+    scanf("%f", &arr[*count].gpa);
+    (*count)++;
+    printf("Record added.\n");
+}
+
+void displayStudents(struct Student arr[], int count) {
+    if (count == 0) {
+        printf("\nNo records found.\n");
+        return;
+    }
+    printf("\nID\tName\t\tGPA\n");
+    printf("-----------------------------\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d\t%-15s\t%.2f\n", arr[i].id, arr[i].name, arr[i].gpa);
+    }
+}
+
+void searchStudent(struct Student arr[], int count) {
+    if (count == 0) {
+        printf("\nNo records to search.\n");
+        return;
+    }
+    int searchId;
+    int found = 0;
+    printf("\nEnter ID to search: ");
+    scanf("%d", &searchId);
+    for (int i = 0; i < count; i++) {
+        if (arr[i].id == searchId) {
+            printf("\nFound: ID: %d, Name: %s, GPA: %.2f\n", arr[i].id, arr[i].name, arr[i].gpa);
+            found = 1;
             break;
         }
+    }
+    if (!found) {
+        printf("Record not found.\n");
+    }
+}
 
-        if (choice >= 1 && choice <= 4) {
-            printf("Enter first number: ");
-            scanf("%lf", &num1);
-            printf("Enter second number: ");
-            scanf("%lf", &num2);
-        }
+int main() {
+    struct Student students[MAX_STUDENTS];
+    int count = 0;
+    int choice;
+
+    do {
+        printf("\n--- Student Record System ---\n");
+        printf("1. Add Student\n");
+        printf("2. Display All Students\n");
+        printf("3. Search Student by ID\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                result = num1 + num2;
-                printf("Result: %.2lf + %.2lf = %.2lf\n", num1, num2, result);
+                addStudent(students, &count);
                 break;
             case 2:
-                result = num1 - num2;
-                printf("Result: %.2lf - %.2lf = %.2lf\n", num1, num2, result);
+                displayStudents(students, count);
                 break;
             case 3:
-                result = num1 * num2;
-                printf("Result: %.2lf * %.2lf = %.2lf\n", num1, num2, result);
+                searchStudent(students, count);
                 break;
             case 4:
-                if (num2 == 0) {
-                    printf("Error: Division by zero is not allowed.\n");
-                } else {
-                    result = num1 / num2;
-                    printf("Result: %.2lf / %.2lf = %.2lf\n", num1, num2, result);
-                }
+                printf("Exiting...\n");
                 break;
             default:
-                printf("Invalid choice! Please select a valid option from the menu.\n");
+                printf("Invalid choice!\n");
         }
-    }
+    } while (choice != 4);
 
     return 0;
 }
