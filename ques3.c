@@ -1,165 +1,87 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#define TOTAL_SEATS 50
-
-struct Ticket {
-    int id;
-    char name[50];
-    int seat_num;
-};
-
-struct Ticket system_bookings[TOTAL_SEATS];
-int seats[TOTAL_SEATS] = {0};
-int booking_count = 0;
-int next_id = 1001;
-
-void display_menu() {
-    printf("\n=== TICKET BOOKING SYSTEM ===\n");
-    printf("1. View Available Seats\n");
-    printf("2. Book a Ticket\n");
-    printf("3. Cancel a Ticket\n");
-    printf("4. View All Bookings\n");
-    printf("5. Exit\n");
-    printf("Enter your choice: ");
-}
-
-void view_seats() {
-    printf("\n--- Seating Arrangement ---\n");
-    for (int i = 0; i < TOTAL_SEATS; i++) {
-        if (seats[i] == 0) {
-            printf("[%2d:Available] ", i + 1);
-        } else {
-            printf("[%2d: BOOKED  ] ", i + 1);
-        }
-        if ((i + 1) % 5 == 0) {
-            printf("\n");
-        }
-    }
-}
-
-void book_ticket() {
-    if (booking_count >= TOTAL_SEATS) {
-        printf("\nError: All seats are fully booked!\n");
-        return;
-    }
-
-    int choice_seat;
-    printf("\nEnter preferred seat number (1-%d): ", TOTAL_SEATS);
-    if (scanf("%d", &choice_seat) != 1) {
-        printf("\nInvalid entry!\n");
-        while (getchar() != '\n');
-        return;
-    }
-
-    if (choice_seat < 1 || choice_seat > TOTAL_SEATS) {
-        printf("\nError: Invalid seat number!\n");
-        return;
-    }
-
-    if (seats[choice_seat - 1] == 1) {
-        printf("\nError: Seat %d is already occupied!\n", choice_seat);
-        return;
-    }
-
-    struct Ticket new_ticket;
-    new_ticket.id = next_id++;
-    new_ticket.seat_num = choice_seat;
-    
-    printf("Enter passenger name: ");
-    while (getchar() != '\n');
-    fgets(new_ticket.name, sizeof(new_ticket.name), stdin);
-    new_ticket.name[strcspn(new_ticket.name, "\n")] = '\0';
-
-    seats[choice_seat - 1] = 1;
-    system_bookings[booking_count++] = new_ticket;
-
-    printf("\nSuccess: Ticket booked successfully!\n");
-    printf("Ticket ID: %d | Passenger: %s | Seat: %d\n", new_ticket.id, new_ticket.name, new_ticket.seat_num);
-}
-
-void cancel_ticket() {
-    if (booking_count == 0) {
-        printf("\nError: No active bookings found to cancel!\n");
-        return;
-    }
-
-    int target_id;
-    printf("\nEnter your Ticket ID to cancel: ");
-    if (scanf("%d", &target_id) != 1) {
-        printf("\nInvalid entry!\n");
-        while (getchar() != '\n');
-        return;
-    }
-
-    int target_index = -1;
-    for (int i = 0; i < booking_count; i++) {
-        if (system_bookings[i].id == target_id) {
-            target_index = i;
-            break;
-        }
-    }
-
-    if (target_index == -1) {
-        printf("\nError: Ticket ID %d not found in our records!\n", target_id);
-        return;
-    }
-
-    int freed_seat = system_bookings[target_index].seat_num;
-    seats[freed_seat - 1] = 0;
-
-    for (int i = target_index; i < booking_count - 1; i++) {
-        system_bookings[i] = system_bookings[i + 1];
-    }
-    booking_count--;
-
-    printf("\nSuccess: Ticket ID %d has been canceled. Seat %d is now available.\n", target_id, freed_seat);
-}
-
-void view_bookings() {
-    if (booking_count == 0) {
-        printf("\nNo active bookings to show.\n");
-        return;
-    }
-
-    printf("\n--- Current Passenger Bookings ---\n");
-    printf("%-12s %-30s %-10s\n", "Ticket ID", "Passenger Name", "Seat No.");
-    printf("-------------------------------------------------------\n");
-    for (int i = 0; i < booking_count; i++) {
-        printf("%-12d %-30s %-10d\n", system_bookings[i].id, system_bookings[i].name, system_bookings[i].seat_num);
-    }
-}
-
 int main() {
-    int selection;
-    while (1) {
-        display_menu();
-        if (scanf("%d", &selection) != 1) {
-            printf("\nInvalid choice. Please enter a valid number.\n");
-            while (getchar() != '\n');
-            continue;
-        }
+    int choice;
+    char str1[200];
+    char str2[100];
 
-        switch (selection) {
+    do {
+        printf("\n=== STRING OPERATIONS MENU ===\n");
+        printf("1. Find String Length\n");
+        printf("2. Copy String\n");
+        printf("3. Concatenate Strings\n");
+        printf("4. Compare Strings\n");
+        printf("5. Reverse String\n");
+        printf("6. Exit\n");
+        printf("Enter your choice (1-6): ");
+        scanf("%d", &choice);
+        while (getchar() != '\n');
+
+        switch (choice) {
             case 1:
-                view_seats();
+                printf("Enter a string: ");
+                fgets(str1, sizeof(str1), stdin);
+                str1[strcspn(str1, "\n")] = '\0';
+                printf("Length of the string: %lu\n", strlen(str1));
                 break;
+
             case 2:
-                book_ticket();
+                printf("Enter source string: ");
+                fgets(str1, sizeof(str1), stdin);
+                str1[strcspn(str1, "\n")] = '\0';
+                strcpy(str2, str1);
+                printf("Copied target string: %s\n", str2);
                 break;
+
             case 3:
-                cancel_ticket();
+                printf("Enter first string: ");
+                fgets(str1, sizeof(str1), stdin);
+                str1[strcspn(str1, "\n")] = '\0';
+                printf("Enter second string: ");
+                fgets(str2, sizeof(str2), stdin);
+                str2[strcspn(str2, "\n")] = '\0';
+                strcat(str1, str2);
+                printf("Concatenated string: %s\n", str1);
                 break;
+
             case 4:
-                view_bookings();
+                printf("Enter first string: ");
+                fgets(str1, sizeof(str1), stdin);
+                str1[strcspn(str1, "\n")] = '\0';
+                printf("Enter second string: ");
+                fgets(str2, sizeof(str2), stdin);
+                str2[strcspn(str2, "\n")] = '\0';
+                int res = strcmp(str1, str2);
+                if (res == 0) {
+                    printf("Strings are equal.\n");
+                } else if (res > 0) {
+                    printf("First string is greater.\n");
+                } else {
+                    printf("Second string is greater.\n");
+                }
                 break;
+
             case 5:
-                printf("\nExiting system. Goodbye!\n");
-                exit(0);
+                printf("Enter a string: ");
+                fgets(str1, sizeof(str1), stdin);
+                str1[strcspn(str1, "\n")] = '\0';
+                long len = strlen(str1);
+                printf("Reversed string: ");
+                for (long i = len - 1; i >= 0; i--) {
+                    putchar(str1[i]);
+                }
+                printf("\n");
+                break;
+
+            case 6:
+                printf("Exiting the system.\n");
+                break;
+
             default:
-                printf("\nInvalid selection! Please pick an option from 1 to 5.\n");
+                printf("Invalid selection! Try again.\n");
         }
-    }
+    } while (choice != 6);
+
     return 0;
 }

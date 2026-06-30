@@ -1,143 +1,124 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-struct Contact {
+#define MAX_ITEMS 100
+
+struct Item {
+    int id;
     char name[50];
-    char phone[20];
-    char email[50];
+    int quantity;
+    float price;
 };
 
-void addContact() {
-    FILE *fp = fopen("contacts.dat", "ab");
-    if (fp == NULL) {
-        printf("Error opening file!\n");
-        return;
-    }
-    struct Contact c;
-    printf("Enter Name: ");
-    scanf(" %[^\n]", c.name);
-    printf("Enter Phone: ");
-    scanf(" %[^\n]", c.phone);
-    printf("Enter Email: ");
-    scanf(" %[^\n]", c.email);
-    fwrite(&c, sizeof(struct Contact), 1, fp);
-    fclose(fp);
-    printf("Contact added successfully!\n");
-}
+struct Item inventory[MAX_ITEMS];
+int itemCount = 0;
 
-void listContacts() {
-    FILE *fp = fopen("contacts.dat", "rb");
-    if (fp == NULL) {
-        printf("No contacts found.\n");
+void addItem() {
+    if (itemCount >= MAX_ITEMS) {
+        printf("\nInventory is full!\n");
         return;
     }
-    struct Contact c;
-    printf("\n--- Contact List ---\n");
-    while (fread(&c, sizeof(struct Contact), 1, fp)) {
-        printf("Name : %s\n", c.name);
-        printf("Phone: %s\n", c.phone);
-        printf("Email: %s\n", c.email);
-        printf("--------------------\n");
-    }
-    fclose(fp);
-}
-
-void searchContact() {
-    FILE *fp = fopen("contacts.dat", "rb");
-    if (fp == NULL) {
-        printf("No contacts found.\n");
-        return;
-    }
-    char searchName[50];
-    struct Contact c;
-    int found = 0;
-    printf("Enter name to search: ");
-    scanf(" %[^\n]", searchName);
-    while (fread(&c, sizeof(struct Contact), 1, fp)) {
-        if (strcasecmp(c.name, searchName) == 0) {
-            printf("\nContact Found:\n");
-            printf("Name : %s\n", c.name);
-            printf("Phone: %s\n", c.phone);
-            printf("Email: %s\n", c.email);
-            found = 1;
-            break;
+    struct Item newItem;
+    printf("\nEnter Item ID: ");
+    scanf("%d", &newItem.id);
+    for (int i = 0; i < itemCount; i++) {
+        if (inventory[i].id == newItem.id) {
+            printf("Error: Item ID already exists!\n");
+            return;
         }
     }
-    if (!found) {
-        printf("Contact not found.\n");
-    }
-    fclose(fp);
+    printf("Enter Item Name: ");
+    scanf("%s", newItem.name);
+    printf("Enter Quantity: ");
+    scanf("%d", &newItem.quantity);
+    printf("Enter Price: ");
+    scanf("%f", &newItem.price);
+    inventory[itemCount] = newItem;
+    itemCount++;
+    printf("Item added successfully!\n");
 }
 
-void deleteContact() {
-    FILE *fp = fopen("contacts.dat", "rb");
-    if (fp == NULL) {
-        printf("No contacts found.\n");
+void displayInventory() {
+    if (itemCount == 0) {
+        printf("\nInventory is empty!\n");
         return;
     }
-    FILE *temp = fopen("temp.dat", "wb");
-    if (temp == NULL) {
-        printf("Error opening temporary file!\n");
-        fclose(fp);
+    printf("\n=== Current Inventory ===\n");
+    printf("%-10s %-25s %-10s %-10s\n", "ID", "Name", "Quantity", "Price");
+    for (int i = 0; i < itemCount; i++) {
+        printf("%-10d %-25s %-10d $%-9.2f\n", inventory[i].id, inventory[i].name, inventory[i].quantity, inventory[i].price);
+    }
+}
+
+void searchItem() {
+    if (itemCount == 0) {
+        printf("\nInventory is empty!\n");
         return;
     }
-    char deleteName[50];
-    struct Contact c;
-    int found = 0;
-    printf("Enter name to delete: ");
-    scanf(" %[^\n]", deleteName);
-    while (fread(&c, sizeof(struct Contact), 1, fp)) {
-        if (strcasecmp(c.name, deleteName) == 0) {
-            found = 1;
-        } else {
-            fwrite(&c, sizeof(struct Contact), 1, temp);
+    int searchId;
+    printf("\nEnter Item ID to search: ");
+    scanf("%d", &searchId);
+    for (int i = 0; i < itemCount; i++) {
+        if (inventory[i].id == searchId) {
+            printf("\nItem Found:\n");
+            printf("ID: %d\nName: %s\nQuantity: %d\nPrice: $%.2f\n", inventory[i].id, inventory[i].name, inventory[i].quantity, inventory[i].price);
+            return;
         }
     }
-    fclose(fp);
-    fclose(temp);
-    if (found) {
-        remove("contacts.dat");
-        rename("temp.dat", "contacts.dat");
-        printf("Contact deleted successfully!\n");
-    } else {
-        remove("temp.dat");
-        printf("Contact not found.\n");
+    printf("Item with ID %d not found.\n", searchId);
+}
+
+void updateQuantity() {
+    if (itemCount == 0) {
+        printf("\nInventory is empty!\n");
+        return;
     }
+    int searchId, newQty;
+    printf("\nEnter Item ID to update quantity: ");
+    scanf("%d", &searchId);
+    for (int i = 0; i < itemCount; i++) {
+        if (inventory[i].id == searchId) {
+            printf("Current Quantity: %d\n", inventory[i].quantity);
+            printf("Enter New Quantity: ");
+            scanf("%d", &newQty);
+            inventory[i].quantity = newQty;
+            printf("Quantity updated successfully!\n");
+            return;
+        }
+    }
+    printf("Item with ID %d not found.\n", searchId);
 }
 
 int main() {
     int choice;
-    while (1) {
-        printf("\n*** Contact Management System ***\n");
-        printf("1. Add Contact\n");
-        printf("2. List All Contacts\n");
-        printf("3. Search Contact\n");
-        printf("4. Delete Contact\n");
+    do {
+        printf("\n*** Inventory Management System ***\n");
+        printf("1. Add New Item\n");
+        printf("2. Display All Items\n");
+        printf("3. Search Item by ID\n");
+        printf("4. Update Item Quantity\n");
         printf("5. Exit\n");
-        printf("Enter your choice: ");
-        if (scanf("%d", &choice) != 1) {
-            printf("Invalid input. Exiting.\n");
-            break;
-        }
+        printf("Enter your choice (1-5): ");
+        scanf("%d", &choice);
         switch (choice) {
             case 1:
-                addContact();
+                addItem();
                 break;
             case 2:
-                listContacts();
+                displayInventory();
                 break;
             case 3:
-                searchContact();
+                searchItem();
                 break;
             case 4:
-                deleteContact();
+                updateQuantity();
                 break;
             case 5:
-                exit(0);
+                printf("\nExiting system. Goodbye!\n");
+                break;
             default:
-                printf("Invalid choice! Try again.\n");
+                printf("\nInvalid choice! Please choose between 1 and 5.\n");
         }
-    }
+    } while (choice != 5);
     return 0;
 }

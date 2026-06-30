@@ -1,102 +1,145 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
-struct BankAccount {
-    int accNumber;
-    char name[50];
-    float balance;
-};
+#define MAX_SIZE 100
 
-void createAccount(struct BankAccount *acc) {
-    printf("\n--- Create Account ---\n");
-    printf("Enter Account Number: ");
-    scanf("%d", &acc->accNumber);
-    printf("Enter Account Holder Name: ");
-    scanf("%s", acc->name);
-    printf("Enter Initial Deposit: ");
-    scanf("%f", &acc->balance);
-    printf("Account created successfully!\n");
-}
-
-void checkBalance(struct BankAccount acc) {
-    printf("\n--- Account Details ---\n");
-    printf("Account Number: %d\n", acc.accNumber);
-    printf("Holder Name: %s\n", acc.name);
-    printf("Current Balance: %.2f\n", acc.balance);
-}
-
-void deposit(struct BankAccount *acc) {
-    float amount;
-    printf("\n--- Deposit ---\n");
-    printf("Enter amount to deposit: ");
-    scanf("%f", &amount);
-    if (amount > 0) {
-        acc->balance += amount;
-        printf("Deposit successful. New Balance: %.2f\n", acc->balance);
-    } else {
-        printf("Invalid deposit amount.\n");
+void display(int arr[], int n) {
+    if (n == 0) {
+        printf("Array is empty.\n");
+        return;
     }
+    printf("Array elements: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
 }
 
-void withdraw(struct BankAccount *acc) {
-    float amount;
-    printf("\n--- Withdraw ---\n");
-    printf("Enter amount to withdraw: ");
-    scanf("%f", &amount);
-    if (amount > 0 && amount <= acc->balance) {
-        acc->balance -= amount;
-        printf("Withdrawal successful. New Balance: %.2f\n", acc->balance);
-    } else if (amount > acc->balance) {
-        printf("Insufficient balance.\n");
-    } else {
-        printf("Invalid withdrawal amount.\n");
+int search(int arr[], int n, int key) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == key) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int deleteElement(int arr[], int n, int key) {
+    int pos = search(arr, n, key);
+    if (pos == -1) {
+        return n;
+    }
+    for (int i = pos; i < n - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+    return n - 1;
+}
+
+int insertElement(int arr[], int n, int value) {
+    if (n >= MAX_SIZE) {
+        printf("Array is full. Cannot insert more elements.\n");
+        return n;
+    }
+    arr[n] = value;
+    return n + 1;
+}
+
+void sortArray(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
     }
 }
 
 int main() {
-    struct BankAccount account;
+    int arr[MAX_SIZE];
+    int n = 0;
     int choice;
-    account.accNumber = 0;
+    int value;
+    int result;
 
     do {
-        printf("\n=== Bank Management System ===\n");
-        printf("1. Create Account\n");
-        printf("2. Check Balance\n");
-        printf("3. Deposit\n");
-        printf("4. Withdraw\n");
-        printf("5. Exit\n");
+        printf("\nMenu:\n");
+        printf("1. Insert element\n");
+        printf("2. Delete element\n");
+        printf("3. Search element\n");
+        printf("4. Display array\n");
+        printf("5. Sort array\n");
+        printf("6. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Exiting.\n");
+            break;
+        }
 
         switch (choice) {
             case 1:
-                createAccount(&account);
+                printf("Enter value to insert: ");
+                if (scanf("%d", &value) != 1) {
+                    printf("Invalid input.\n");
+                    break;
+                }
+                n = insertElement(arr, n, value);
                 break;
             case 2:
-                if (account.accNumber == 0)
-                    printf("No account found. Please create an account first.\n");
-                else
-                    checkBalance(account);
+                if (n == 0) {
+                    printf("Array is empty. Nothing to delete.\n");
+                } else {
+                    printf("Enter value to delete: ");
+                    if (scanf("%d", &value) != 1) {
+                        printf("Invalid input.\n");
+                        break;
+                    }
+                    int newSize = deleteElement(arr, n, value);
+                    if (newSize == n) {
+                        printf("Element %d not found.\n", value);
+                    } else {
+                        n = newSize;
+                        printf("Element %d deleted.\n", value);
+                    }
+                }
                 break;
             case 3:
-                if (account.accNumber == 0)
-                    printf("No account found. Please create an account first.\n");
-                else
-                    deposit(&account);
+                if (n == 0) {
+                    printf("Array is empty.\n");
+                } else {
+                    printf("Enter value to search: ");
+                    if (scanf("%d", &value) != 1) {
+                        printf("Invalid input.\n");
+                        break;
+                    }
+                    result = search(arr, n, value);
+                    if (result == -1) {
+                        printf("Element %d not found.\n", value);
+                    } else {
+                        printf("Element %d found at index %d.\n", value, result);
+                    }
+                }
                 break;
             case 4:
-                if (account.accNumber == 0)
-                    printf("No account found. Please create an account first.\n");
-                else
-                    withdraw(&account);
+                display(arr, n);
                 break;
             case 5:
-                printf("Thank you for using the Bank Management System!\n");
+                if (n == 0) {
+                    printf("Array is empty.\n");
+                } else {
+                    sortArray(arr, n);
+                    printf("Array sorted.\n");
+                }
+                break;
+            case 6:
+                printf("Exiting.\n");
                 break;
             default:
                 printf("Invalid choice. Please try again.\n");
+                break;
         }
-    } while (choice != 5);
+    } while (choice != 6);
 
     return 0;
 }
